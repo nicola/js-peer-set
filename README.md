@@ -35,7 +35,7 @@ neighbors.peers
 const PeerSet = require('peer-set')
 ```
 
-## const set = new PeerSet(peers, limit, peerToId)
+## const set = new PeerSet(peers, {limit: number, peerToId: function)
 
 Creates a set of peers with an array of peers, a max size and a function to get the peerId from a peer object. By default, peer objects are assumed to be PeerInfo.
 
