@@ -1,5 +1,5 @@
 {
-  "name": "js-peer-set",
+  "name": "peer-set",
   "version": "0.1.0",
   "description": "Abstraction of a set of peers",
   "main": "src/index.js",
