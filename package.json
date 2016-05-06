@@ -11,10 +11,12 @@
     "pick-random": "^1.1.0"
   },
   "devDependencies": {
-    "mocha": "^2.4.5"
+    "mocha": "^2.4.5",
+    "standard": "^7.0.1"
   },
   "scripts": {
-    "test": "mocha --harmony_default_parameters"
+    "test": "standard && mocha --harmony_default_parameters",
+    "lint": "standard"
   },
   "repository": {
     "type": "git",
