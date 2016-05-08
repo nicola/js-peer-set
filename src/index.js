@@ -56,6 +56,7 @@ class PeerSet extends EventEmitter {
   }
 
   add (peers, replaceable) {
+
     peers.forEach((peer, i) => {
       // check if we have reached a limit
       if (this.limit && this.length >= this.limit) {
@@ -70,8 +71,14 @@ class PeerSet extends EventEmitter {
         delete this.peers[id]
       }
       const id = this.peerToId(peer)
+      const exist = this.peers[id]
       this.peers[id] = peer
-      this.emit('add', peer)
+
+      if (!exist) {
+        this.emit('add', peer)
+      } else {
+        this.emit('update', peer)
+      }
     })
   }
 }
