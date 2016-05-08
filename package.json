@@ -1,6 +1,6 @@
 {
   "name": "peer-set",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Abstraction of a set of peers",
   "main": "src/index.js",
   "directories": {
