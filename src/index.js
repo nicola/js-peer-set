@@ -56,7 +56,6 @@ class PeerSet extends EventEmitter {
   }
 
   add (peers, replaceable) {
-
     peers.forEach((peer, i) => {
       // check if we have reached a limit
       if (this.limit && this.length >= this.limit) {
