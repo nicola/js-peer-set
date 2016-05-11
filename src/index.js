@@ -20,11 +20,19 @@ class PeerSet extends EventEmitter {
     }
   }
 
-  sample (limit) {
+  sample (limit, exclude) {
     let ids = Object.keys(this.peers)
     if (ids.length === 0) {
       return []
     }
+    if (exclude && exclude.length > 0) {
+      const excludeIds = exclude.map(this.peerToId)
+      ids = ids.filter(peer => excludeIds.indexOf(peer) < 0)
+    }
+    if (ids.length === 0) {
+      return []
+    }
+
     let sampled = sample(ids, {count: Math.min(limit, ids.length)})
     return sampled.map((key) => {
       return this.peers[key]
@@ -38,6 +46,11 @@ class PeerSet extends EventEmitter {
   get (peer) {
     const id = this.peerToId(peer)
     return this.peers[id]
+  }
+
+  getAll () {
+    return Object.keys(this.peers)
+      .map(peer => this.peers[peer])
   }
 
   forEach (fn) {
