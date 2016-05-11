@@ -3,6 +3,7 @@
 
 const expect = require('chai').expect
 const PeerSet = require('../src')
+const parallel = require('run-parallel')
 
 function peerToId (peer) {
   return peer.id
@@ -29,6 +30,30 @@ describe('peer-set', function () {
     expect(set.get(Alice)).to.eql(Alice)
     expect(set.get(Bob)).to.eql(Bob)
     done()
+  })
+
+  it('emits the peer.id in a `remove` event whenever a peer is removed', (done) => {
+    const Alice = {id: 'Alice'}
+    const Bob = {id: 'Bob'}
+
+    parallel([
+      (cb) => {
+        const set = new PeerSet([Alice, Bob], {peerToId: peerToId})
+        set.once('remove', (id) => {
+          expect(id).to.eql(Alice.id)
+          cb()
+        })
+        set.remove(Alice)
+      },
+      (cb) => {
+        const set = new PeerSet([Alice], {limit: 1, peerToId: peerToId})
+        set.once('remove', (id) => {
+          expect(id).to.eql(Alice.id)
+          cb()
+        })
+        set.add([Bob], [Alice])
+      }
+    ], done)
   })
 
   it('sample a subset of peers', (done) => {

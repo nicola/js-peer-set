@@ -6,7 +6,7 @@ const EventEmitter = require('events').EventEmitter
 function defaultPeerToId (peer) {
   return peer.id.toB58String()
 }
-
+var i = 0
 class PeerSet extends EventEmitter {
   constructor (peers, opts = {}) {
     super()
@@ -14,7 +14,6 @@ class PeerSet extends EventEmitter {
     this.peers = {}
     this.limit = opts.limit
     this.peerToId = opts.peerToId || defaultPeerToId
-
     if (peers) {
       this.add(peers)
     }
@@ -60,12 +59,13 @@ class PeerSet extends EventEmitter {
   }
 
   remove (peer) {
+    i++
     const id = this.peerToId(peer)
     peer = this.peers[id]
     if (peer) {
       delete this.peers[id]
     }
-    this.emit('remove', peer)
+    this.emit('remove', id)
   }
 
   add (peers, replaceable) {
@@ -79,7 +79,7 @@ class PeerSet extends EventEmitter {
         // otherwise, replace
         let replacing = replaceable.shift(0)
         const id = this.peerToId(replacing)
-        this.emit('remove', this.peers[id])
+        this.emit('remove', id)
         delete this.peers[id]
       }
       const id = this.peerToId(peer)
